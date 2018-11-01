@@ -1,0 +1,17 @@
+certifi==2018.10.15
+chardet==3.0.4
+colorama==0.4.0
+Django==2.1.2
+django-filter==1.1.0
+djangorestframework==3.9.0
+djangorestframework-filters==0.10.2.post0
+gunicorn==19.9.0
+httpie==0.9.9
+idna==2.7
+Pillow==5.2.0
+Pygments==2.2.0
+pytz==2018.5
+requests==2.20.0
+urllib3==1.24
+views==0.3
+virtualenv==16.0.0
