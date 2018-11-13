@@ -1,0 +1,58 @@
+--------------------------------------------------------------------------------------------------------------------------------------
+CREATE TABLE "medme_company" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "name" varchar(50) NOT NULL, "created" datetime NOT NULL)
+
+INSERT INTO medme_company (id, name, created)
+
+SELECT distinct ID as id ,NAME as name, strftime('%Y-%m-%d %H:%M:%S', date('now')) as created
+FROM COMPANY
+GROUP BY NAME
+ORDER BY ID
+
+SELECT * from medme_company
+
+--------------------------------------------------------------------------------------------------------------------------------------
+CREATE TABLE "medme_drug" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "name" varchar(50) NOT NULL, "created" datetime NOT NULL)
+
+INSERT INTO medme_drug (id, name, created)
+
+SELECT distinct CODE as id ,NAME as name, strftime('%Y-%m-%d %H:%M:%S', date('now')) as created
+FROM DRUG
+GROUP BY NAME
+ORDER BY CODE
+
+SELECT * from medme_drug
+--------------------------------------------------------------------------------------------------------------------------------------
+CREATE TABLE "medme_form" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "form" varchar(50) NOT NULL, "created" datetime NOT NULL)
+
+INSERT INTO medme_form (form, created)
+
+SELECT distinct FORM as form, strftime('%Y-%m-%d %H:%M:%S', date('now')) as created
+FROM BRAND_DRUG
+
+SELECT * from medme_form
+--------------------------------------------------------------------------------------------------------------------------------------
+
+CREATE TABLE "medme_medicine" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "created" datetime NOT NULL, "name" varchar(50) NOT NULL, "price" integer NOT NULL, "company_id" integer NOT NULL REFERENCES "medme_company" ("id") DEFERRABLE INITIALLY DEFERRED, "form_id" integer NOT NULL REFERENCES "medme_form" ("id") DEFERRABLE INITIALLY DEFERRED)
+
+select DISTINCT PACKING from BRAND_DRUG
+order by PACKING
+select ID as id, NAME as name, RETIALPRICE as price, from BRAND_DRUG
+
+
+SELECT * FROM 
+(
+
+Select (BG.NAME || ' (' || BG.FORM || ')' )as name,BG.PACKING as packing, BG.TRADEPRICE, BG.RETIALPRICE as price, B.CID as company_id, F.id as form_id FROM BRAND_DRUG BG, DRUG D, BRAND B, COMPANY C, medme_form F
+WHERE BG.DID = D.CODE
+AND BG.NAME like 'panadol'
+AND BG.BID = B.BID
+AND C.ID = B.CID
+AND BG.FORM = F.form
+)
+GROUP BY  name,packing, form_id, price
+ORDER by name, packing
+
+
+
+
+
