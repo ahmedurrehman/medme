@@ -38,9 +38,8 @@ class Drug(models.Model):
 
 
 class Composition(models.Model):
-    id = models.AutoField(primary_key=True, auto_created=True)
-    # medicine = models.ForeignKey('Medicine', related_name='compositions', on_delete=models.DO_NOTHING, blank=True)
-    drug = models.ForeignKey(Drug, related_name='compositions', on_delete=models.DO_NOTHING, blank=True)
+    medicine = models.ForeignKey('Medicine', on_delete=models.DO_NOTHING, blank=True, null=True)
+    drug = models.ForeignKey(Drug, on_delete=models.DO_NOTHING, blank=True, null=True)
     potency = models.CharField(max_length=50)
     created = models.DateTimeField(auto_now_add=True)
 
@@ -64,10 +63,15 @@ class Medicine(models.Model):
     company = models.ForeignKey(Company, related_name='medicines', on_delete=models.DO_NOTHING, blank=False)
     form = models.ForeignKey(Form, related_name='medicines', on_delete=models.DO_NOTHING, blank=False)
     price = models.IntegerField(default=0)
-    composition = models.ManyToManyField(Composition, related_name='compositions', blank=False)
+    drugs = models.ManyToManyField(Drug, related_name='drugs', through=Composition)
 
     def __str__(self):  # __unicode__ on Python 2
         return self.name + '(' + self.form.form + ')' + "-" + self.company.name
+
+    def display_compositions(self):  # __unicode__ on Python 2
+        return "\n".join([str(c) for c in Composition.objects.filter(medicine__id=self.id)])
+
+    display_compositions.short_description = 'Compositions'
 
     class Meta:
         ordering = ('name', 'created',)
@@ -95,6 +99,11 @@ class Order(models.Model):
     def __str__(self):  # __unicode__ on Python 2
         return str(self.orderNumber) + "-" + self.customer.name
 
+    def display_order_items(self):  # __unicode__ on Python 2
+        return "\n".join([str(oi) for oi in OrderItems.objects.filter(order__orderNumber=self.orderNumber)])
+
+    display_order_items.short_description = 'Items'
+
 
 class Meta:
     ordering = ('created',)
@@ -105,6 +114,9 @@ class OrderItems(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, blank=False)
     quantity = models.IntegerField(default=1)
     created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):  # __unicode__ on Python 2
+        return str(self.medicine.name) + "-" + str(self.quantity)
 
     class Meta:
         ordering = ('created',)

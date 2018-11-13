@@ -14,7 +14,7 @@ from rest_framework import mixins, viewsets, filters
 @api_view(['GET'])
 def api_root(request, format=None):
     return Response({
-        'users': reverse('user-list', request=request, format=format),
+        'customers': reverse('customer-list', request=request, format=format),
         'orders': reverse('order-list', request=request, format=format),
         'medicines': reverse('medicine-list', request=request, format=format),
         'drugs': reverse('drug-list', request=request, format=format),

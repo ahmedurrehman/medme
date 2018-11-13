@@ -9,23 +9,19 @@ class CustomerAdmin(admin.ModelAdmin):
     search_fields = ('name',)
 
 
-class OrderAdmin(admin.ModelAdmin):
-    list_display = ('name', 'email', 'phone', 'address')
-    search_fields = ('name',)
-
 
 class OrderAdmin(admin.ModelAdmin):
     model = Order
 
-    def order_items(self, obj):
-        return "\n".join([str(item.name)+", " for item in obj.items.all()])
+    # def order_items(self, obj):
+    #     return "\n".join([str(item.name)+", " for item in obj.items.all()])
 
 
     def order_user(self, obj):
         return obj.customer.name
     order_user.short_description = 'Customer Name'
 
-    list_display = ('orderNumber', 'order_user','order_items', 'status', 'totalBill', 'created')
+    list_display = ('orderNumber', 'order_user','display_order_items', 'status', 'totalBill', 'created')
     list_filter = ('status', 'created')
     search_fields = ('orderNumber', 'order_user')
 
@@ -35,7 +31,6 @@ class MedicineAdmin(admin.ModelAdmin):
 
     def company_name(self, obj):
         return obj.company.name
-
     company_name.short_description = 'Company'
 
     def form_name(self, obj):
@@ -43,12 +38,9 @@ class MedicineAdmin(admin.ModelAdmin):
 
     form_name.short_description = 'Form'
 
-    def get_compositions(self, obj):
-        return "\n".join([str(c) for c in obj.composition.all()])
 
-    get_compositions.short_description = 'Compositions'
 
-    list_display = ('name', 'company_name', 'form_name', 'price', 'get_compositions', 'created')
+    list_display = ('name', 'company_name', 'form_name', 'price', 'display_compositions', 'created')
     # list_filter = ('name', 'company')
     # search_fields = ('name', 'generic_name', 'company')
 

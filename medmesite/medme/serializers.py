@@ -6,29 +6,27 @@ from medme.models import Order, Medicine, Customer, Composition, Drug, OrderItem
 
 
 class DrugSerializer(serializers.HyperlinkedModelSerializer):
-    # orders = serializers.PrimaryKeyRelatedField(many=True, queryset=Order.objects.all())
     class Meta:
         model = Drug
         fields = ('id', 'name')
 
 
 class CompositionSerializer(serializers.HyperlinkedModelSerializer):
-    drug_name = serializers.ReadOnlyField(source='drug.name')
-    drug_id = serializers.ReadOnlyField(source='drug.id')
+    drug = DrugSerializer(read_only=True)
 
     class Meta:
         model = Composition
-        fields = ('drug_id', 'drug_name', 'potency')
+        fields = ('drug', 'potency')
 
 
 class MedicineSerializer(serializers.HyperlinkedModelSerializer):
     company_name = serializers.ReadOnlyField(source='company.name')
     form_name = serializers.ReadOnlyField(source='form.form')
-    compositions = CompositionSerializer(many=True, read_only=True)
+    drugs = CompositionSerializer(source='composition_set', many=True, read_only=True)
 
     class Meta:
         model = Medicine
-        fields = ('name', 'company_name', 'form_name', 'compositions', 'price', 'created')
+        fields = ('id','name', 'company_name', 'form_name', 'drugs', 'price', 'created')
 
 
 class CustomerSerializer(serializers.HyperlinkedModelSerializer):
