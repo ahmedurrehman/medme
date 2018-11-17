@@ -1,0 +1,99 @@
+Select * FROM BRAND
+Select * FROM DRUG
+Select * from COMPANY
+Select * From BRAND_DRUG 
+where name LIKE 'panadol'
+
+SELECT BID as _id, DUMB,  (NAME || ' (' || FORM || ')') as ASNAME, * from BRAND_DRUG
+WHERE NAME like 'DISPRIN'
+GROUP BY ASNAME
+
+
+SELECT  PACKING  FROM BRAND_DRUG BD
+
+
+
+GROUP BY BD.PACKING
+
+SELECT DID, NAME  FROM BRAND_DRUG BD
+where name LIKE 'fiterna'
+GROUP BY DID
+
+
+
+
+select NAME, FORM, PACKING, PRICE , T.PRICE/T.PACKING as UNIT_PRICE
+from (
+SELECT NAME, FORM, REPLACE(PACKING,'s','') as PACKING, BRAND_DRUG.RETIALPRICE as PRICE from BRAND_DRUG
+where PACKING like '%s' and PACKING not like '%x%'
+--and name like 'PANADOL'
+GROUP BY NAME, FORM, PACKING
+)T
+
+
+SELECT MG  FROM BRAND_DRUG BD
+GROUP BY MG
+
+
+
+
+select * FROM 
+(
+	SELECT  count(*) AS c , name FROM 
+	(
+		SELECT  count(NAME),DID, NAME  FROM BRAND_DRUG BD
+--		where name LIKE 'fiterna'
+		GROUP BY NAME, DID
+	)
+	--where name LIKE 'fiterna'
+	GROUP BY NAME
+	
+	
+	
+	
+) WHERE C > 2
+
+
+
+SELECT  BD.MG  FROM BRAND_DRUG BD
+WHERE NAME like 'PANADOL' and FORM like '%Susp%'
+GROUP BY BD.MG
+
+
+
+
+GROUP BY DID
+
+
+SELECT  (T1.NAME || '-' || T1.FORM || '-' ||T1.MG) AS FullName,T1.*, C.NAME FROM T1, COMPANY C, BRAND B
+
+
+CREATE TABLE Medicines AS
+
+
+SELECT  (T1.NAME || ' (' || T1.FORM || ')' ) AS FullName,T1.*, C.NAME FROM T1, COMPANY C, BRAND B
+where 
+T1.BID = B.BID and B.CID = C.ID
+and T1.NAME like 'DISPRIN' 
+
+
+CREATE TABLE T1 AS 
+
+
+Select BG.*, D.Name as 'Drug' FROM BRAND_DRUG BG, DRUG D
+WHERE BG.DID = D.CODE
+AND BG.NAME like 'DISPRIN'
+GROUP BY DUMB, DRUG
+
+
+SELECT NAME from BRAND_DRUG
+GROUP BY NAME
+
+
+Select BG.*, D.Name  as 'Drug', B.CID, C.NAME FROM BRAND_DRUG BG, DRUG D, BRAND B, COMPANY C
+WHERE BG.DID = D.CODE
+--AND BG.NAME like 'DISPRIN'
+AND BG.BID = B.BID
+AND C.ID = B.CID
+
+
