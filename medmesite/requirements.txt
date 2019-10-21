@@ -6,7 +6,7 @@ django-filter==1.1.0
 djangorestframework==3.9.0
 djangorestframework-filters==0.10.2.post0
 gunicorn==19.9.0
-httpie==0.9.9
+httpie==1.0.3
 idna==2.7
 Pillow==5.2.0
 Pygments==2.2.0
