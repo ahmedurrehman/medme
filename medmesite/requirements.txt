@@ -3,7 +3,7 @@ chardet==3.0.4
 colorama==0.4.0
 Django==2.1.2
 django-filter==1.1.0
-djangorestframework==3.9.0
+djangorestframework==3.11.2
 djangorestframework-filters==0.10.2.post0
 gunicorn==19.9.0
 httpie==0.9.9
