@@ -8,7 +8,7 @@ djangorestframework-filters==0.10.2.post0
 gunicorn==19.9.0
 httpie==0.9.9
 idna==2.7
-Pillow==5.2.0
+Pillow==8.2.0
 Pygments==2.2.0
 pytz==2018.5
 requests==2.20.0
